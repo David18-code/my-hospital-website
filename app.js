@@ -6,12 +6,22 @@ const session = require('express-session');
 const dotenv = require('dotenv').config();
 const gitignore = require('gitignore');
 const connectMongo = require('connect-mongo')
+const cors = require('cors');
 
 const routes = require('./route');
 
 
 //firing up express
 const app = express();
+
+//firing up cors
+app.use(cors({
+  origin : ['https://www.bbc.co.uk/weather', 'http://www.cnn.com/' ,'https://www.googleadservices.com/', 'https://www.googleadservices.com/'],
+  credentials : false ,
+  methods : ["GET", "POST", "PUT", "DELETE"],
+  optionsSuccessStatus : 200
+}));
+
 
 
 //connecting to database
@@ -42,6 +52,9 @@ app.use(session(
 
 }
 ))
+
+
+
 
 //creating route
 app.use('/', routes);
